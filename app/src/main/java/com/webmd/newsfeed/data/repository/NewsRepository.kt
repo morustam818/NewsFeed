@@ -1,10 +1,12 @@
 package com.webmd.newsfeed.data.repository
 
 import com.webmd.newsfeed.data.local.dao.ArticleDao
+import com.webmd.newsfeed.data.mapper.ArticleMapper
 import com.webmd.newsfeed.data.remote.NewsApiService
 import com.webmd.newsfeed.domain.model.Article
 import com.webmd.newsfeed.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 /**
@@ -17,15 +19,32 @@ class NewsRepositoryImpl @Inject constructor(
     private val apiKey: String
 ) : NewsRepository {
     override fun getTopHeadlines(): Flow<List<Article>> {
-        TODO("Not yet implemented")
+        return articleDao.getAllArticles().map { entities ->
+            ArticleMapper.toDomainListFromEntity(entities)
+        }
     }
 
     override suspend fun getArticleByUrl(url: String): Article? {
-        TODO("Not yet implemented")
+        val entity = articleDao.getArticleByUrl(url)
+        return entity?.let { ArticleMapper.toDomainFromEntity(it) }
     }
 
     override suspend fun refreshTopHeadlines(): Result<Unit> {
-        TODO("Not yet implemented")
+        return try {
+            // Fetch from network (returns DTOs)
+            val response = newsApiService.getTopHeadlines(apiKey = apiKey)
+            if (response.status == "ok" && response.articles != null) {
+                // Convert DTOs to Domain models, then to Entities
+                val domainArticles = ArticleMapper.toDomainListFromDto(response.articles)
+                val entities = ArticleMapper.toEntityList(domainArticles)
+                articleDao.insertArticles(entities)
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Failed to fetch news: ${response.status}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
 }
