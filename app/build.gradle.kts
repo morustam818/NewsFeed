@@ -22,7 +22,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "DB_NAME", "\"news_database\"")
-        buildConfigField("String", "NEWS_API_KEY", "\"REPLACE_API_KEY\"")
+        buildConfigField("String", "NEWS_API_KEY", "\"297cfdadfb824665971fef877a838c2b\"")
         buildConfigField("String", "NEWS_API_BASE_URL", "\"https://newsapi.org/v2/\"")
     }
 
