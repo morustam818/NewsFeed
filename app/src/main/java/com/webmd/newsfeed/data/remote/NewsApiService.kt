@@ -2,6 +2,7 @@ package com.webmd.newsfeed.data.remote
 
 import com.webmd.newsfeed.data.model.NewsResponse
 import com.webmd.newsfeed.utils.AppConstant
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,5 +15,5 @@ interface NewsApiService {
     suspend fun getTopHeadlines(
         @Query("country") country: String = AppConstant.DEFAULT_COUNTRY,
         @Query("apiKey") apiKey: String
-    ): NewsResponse
+    ): Response<NewsResponse>
 }

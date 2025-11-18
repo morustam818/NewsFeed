@@ -11,5 +11,5 @@ import com.webmd.newsfeed.data.local.entity.ArticleEntity
     exportSchema = false
 )
 abstract class NewsDatabase : RoomDatabase() {
-    abstract fun articleDao(): ArticleDao
+    abstract val articleDao: ArticleDao
 }

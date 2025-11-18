@@ -1,6 +1,7 @@
 package com.webmd.newsfeed.domain.repository
 
 import com.webmd.newsfeed.domain.model.Article
+import com.webmd.newsfeed.utils.AppNetworkResult
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -8,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
  * Implementation is in the data layer
  */
 interface NewsRepository {
-    fun getTopHeadlines(): Flow<List<Article>>
+    fun getTopHeadlines(): Flow<AppNetworkResult<List<Article>>>
     suspend fun getArticleByUrl(url: String): Article?
-    suspend fun refreshTopHeadlines(): Result<Unit>
 }
