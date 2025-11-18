@@ -17,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.webmd.newsfeed.domain.model.Article
@@ -72,7 +73,7 @@ fun NewsFeedScreen(
                 is NewsUiState.Success -> {
                     if (state.articles.isEmpty()) {
                         EmptyState(
-                            message = "No articles available",
+                            message = "No Articles available, Please try again",
                             onRetry = { viewModel.sendIntent(NewsIntent.RefreshNews) }
                         )
                     } else {
@@ -176,7 +177,8 @@ fun ErrorMessage(
         Text(
             text = "Error: $message",
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.error
+            color = MaterialTheme.colorScheme.error,
+            textAlign = TextAlign.Center,
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = onRetry) {
