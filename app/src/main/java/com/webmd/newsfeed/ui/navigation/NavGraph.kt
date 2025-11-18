@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.webmd.newsfeed.ui.screen.NewsFeedScreen
 
 sealed class Screen(val route: String) {
     object NewsFeed : Screen("news_feed")
@@ -20,7 +21,11 @@ fun NavGraph(navController: NavHostController) {
         startDestination = Screen.NewsFeed.route
     ) {
         composable(Screen.NewsFeed.route) {
-
+            NewsFeedScreen(
+                onArticleClick = { article ->
+                    navController.navigate("${Screen.ArticleDetail.route}/${article.url}")
+                }
+            )
         }
 
         composable(Screen.ArticleDetail.routeWithArgs) { backStackEntry ->

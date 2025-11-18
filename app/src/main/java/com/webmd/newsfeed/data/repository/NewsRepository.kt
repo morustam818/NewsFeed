@@ -18,7 +18,7 @@ import javax.inject.Named
 class NewsRepositoryImpl @Inject constructor(
     private val newsApiService: NewsApiService,
     private val articleDao: ArticleDao,
-    @field:Named(AppConstant.API_KEY) private val apiKey: String
+    @param:Named(AppConstant.API_KEY) private val apiKey: String
 ) : NewsRepository {
     override fun getTopHeadlines(): Flow<List<Article>> {
         return articleDao.getAllArticles().map { entities ->
@@ -35,7 +35,7 @@ class NewsRepositoryImpl @Inject constructor(
         return try {
             // Fetch from network (returns DTOs)
             val response = newsApiService.getTopHeadlines(apiKey = apiKey)
-            if (response.status == "ok" && response.articles != null) {
+            if (response.status == AppConstant.KEY_STATUS_OK && response.articles != null) {
                 // Convert DTOs to Domain models, then to Entities
                 val domainArticles = ArticleMapper.toDomainListFromDto(response.articles)
                 val entities = ArticleMapper.toEntityList(domainArticles)
