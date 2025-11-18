@@ -9,11 +9,11 @@ import retrofit2.HttpException
 import java.io.IOException
 
 sealed class AppNetworkResult<T>(
-    val data : T? = null,
-    val message : String? = null
+    val data: T? = null,
+    val message: String? = null
 ) {
     class Success<T>(data: T?) : AppNetworkResult<T>(data)
-    class Failed<T>(data: T?,message: String?) : AppNetworkResult<T>(data,message)
+    class Failed<T>(data: T?, message: String?) : AppNetworkResult<T>(data, message)
     class Loading<T>(data: T?) : AppNetworkResult<T>()
 }
 
@@ -29,13 +29,17 @@ inline fun <ResultType, RequestType> networkBoundResource(
         try {
             saveFetchResult(fetch())
             query().map { AppNetworkResult.Success(it) }
-        } catch (e : HttpException) {
-            query().map { AppNetworkResult.Failed(
-                it,e.localizedMessage ?: "An unexpected error occurred")
+        } catch (e: HttpException) {
+            query().map {
+                AppNetworkResult.Failed(
+                    it, e.localizedMessage ?: "An unexpected error occurred"
+                )
             }
-        } catch (e : IOException){
-            query().map { AppNetworkResult.Failed(
-                it,"Failed to get response, please check your internet connection")
+        } catch (_: IOException) {
+            query().map {
+                AppNetworkResult.Failed(
+                    it, "Failed to get response, Please check your Internet connection"
+                )
             }
         }
     } else {
