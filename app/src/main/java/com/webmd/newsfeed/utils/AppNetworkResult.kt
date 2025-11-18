@@ -38,7 +38,7 @@ inline fun <ResultType, RequestType> networkBoundResource(
         } catch (_: IOException) {
             query().map {
                 AppNetworkResult.Failed(
-                    it, "Failed to get response, Please check your Internet connection"
+                    it, "Failed to get Headlines, Please check your Internet connection"
                 )
             }
         }
