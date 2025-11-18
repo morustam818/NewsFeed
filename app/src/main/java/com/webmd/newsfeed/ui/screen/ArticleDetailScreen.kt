@@ -25,6 +25,7 @@ import com.webmd.newsfeed.R
 import com.webmd.newsfeed.ui.viewmodel.ArticleDetailIntent
 import com.webmd.newsfeed.ui.viewmodel.ArticleDetailUiState
 import com.webmd.newsfeed.ui.viewmodel.ArticleDetailViewModel
+import com.webmd.newsfeed.utils.formatDate
 import kotlin.let
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -163,7 +164,7 @@ fun ArticleDetailScreen(
 
                         article.publishedAt?.let { publishedAt ->
                             Text(
-                                text = "Published: $publishedAt",
+                                text = "Published: ${publishedAt.formatDate()}",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
