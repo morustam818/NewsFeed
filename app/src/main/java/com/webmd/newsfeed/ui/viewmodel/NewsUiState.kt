@@ -7,20 +7,20 @@ import com.webmd.newsfeed.domain.model.Article
  * Using sealed class for explicit state representation
  */
 sealed class NewsUiState {
+    open val articles: List<Article> = emptyList()
+
     data object Initial : NewsUiState()
     
     data class Loading(
-        val articles: List<Article> = emptyList()
+        override val articles: List<Article> = emptyList()
     ) : NewsUiState()
     
     data class Success(
-        val articles: List<Article>,
-        val isGridView: Boolean = false
+        override val articles: List<Article>
     ) : NewsUiState()
     
     data class Error(
-        val message: String,
-        val articles: List<Article> = emptyList(),
-        val isGridView: Boolean = false
+        override val articles: List<Article> = emptyList(),
+        val message: String
     ) : NewsUiState()
 }

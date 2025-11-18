@@ -52,7 +52,6 @@ class NewsViewModel @Inject constructor(
     private fun handleIntent(intent: NewsIntent) {
         when (intent) {
             is NewsIntent.LoadNews, NewsIntent.RefreshNews -> loadNews()
-            is NewsIntent.ToggleViewMode -> toggleViewMode()
             is NewsIntent.ClearError -> clearError()
         }
     }
@@ -60,13 +59,6 @@ class NewsViewModel @Inject constructor(
     private fun loadNews() {
         viewModelScope.launch {
             getTopHeadlinesUseCase().collect { result ->
-
-                val isGridView = when (uiState.value) {
-                    is NewsUiState.Success -> (uiState.value as NewsUiState.Success).isGridView
-                    is NewsUiState.Error -> (uiState.value as NewsUiState.Error).isGridView
-                    else -> false
-                }
-
                 val articles = result.data.orEmpty()
 
                 reduceState {
@@ -80,32 +72,16 @@ class NewsViewModel @Inject constructor(
 
                             NewsUiState.Error(
                                 message = errorMessage,
-                                articles = articles,
-                                isGridView = isGridView
+                                articles = articles
                             )
                         }
                         is AppNetworkResult.Success -> {
                             NewsUiState.Success(
-                                articles = articles,
-                                isGridView = isGridView
+                                articles = articles
                             )
                         }
                     }
                 }
-            }
-        }
-    }
-
-    private fun toggleViewMode() {
-        reduceState { currentState ->
-            when (currentState) {
-                is NewsUiState.Success -> currentState.copy(
-                    isGridView = !currentState.isGridView
-                )
-                is NewsUiState.Error -> currentState.copy(
-                    isGridView = !currentState.isGridView
-                )
-                else -> currentState
             }
         }
     }
@@ -116,8 +92,7 @@ class NewsViewModel @Inject constructor(
                 is NewsUiState.Error -> {
                     if (currentState.articles.isNotEmpty()) {
                         NewsUiState.Success(
-                            articles = currentState.articles,
-                            isGridView = currentState.isGridView
+                            articles = currentState.articles
                         )
                     } else {
                         NewsUiState.Initial

@@ -9,10 +9,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -38,20 +34,7 @@ fun NewsFeedScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("News Feed") },
-                actions = {
-                    val isGridView = when (val state = uiState) {
-                        is NewsUiState.Success -> state.isGridView
-                        is NewsUiState.Error -> state.isGridView
-                        else -> false
-                    }
-                    IconButton(onClick = { viewModel.sendIntent(NewsIntent.ToggleViewMode) }) {
-                        Icon(
-                            imageVector = if (isGridView) Icons.Default.List else Icons.Default.List,
-                            contentDescription = "Toggle view"
-                        )
-                    }
-                }
+                title = { Text("News Feed") }
             )
         }
     ) { paddingValues ->
@@ -79,7 +62,6 @@ fun NewsFeedScreen(
                     } else {
                         ArticleListContent(
                             articles = state.articles,
-                            isGridView = false,
                             onArticleClick = onArticleClick
                         )
                     }
@@ -94,7 +76,6 @@ fun NewsFeedScreen(
                     } else {
                         ArticleListContent(
                             articles = state.articles,
-                            isGridView = state.isGridView,
                             onArticleClick = onArticleClick
                         )
                     }
@@ -115,7 +96,6 @@ fun NewsFeedScreen(
                             )
                             ArticleListContent(
                                 articles = state.articles,
-                                isGridView = state.isGridView,
                                 onArticleClick = onArticleClick
                             )
                         }
@@ -129,36 +109,19 @@ fun NewsFeedScreen(
 @Composable
 fun ArticleListContent(
     articles: List<Article>,
-    isGridView: Boolean,
     onArticleClick: (Article) -> Unit
 ) {
-    if (isGridView) {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(articles) { article ->
-                ArticleItem(
-                    article = article,
-                    isGridView = true,
-                    onClick = { onArticleClick(article) }
-                )
-            }
-        }
-    } else {
-        LazyColumn(
-            contentPadding = PaddingValues(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(articles) { article ->
-                ArticleItem(
-                    article = article,
-                    isGridView = false,
-                    onClick = { onArticleClick(article) }
-                )
-            }
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(articles) { article ->
+            ArticleItem(
+                article = article,
+                onClick = { onArticleClick(article) }
+            )
         }
     }
 }

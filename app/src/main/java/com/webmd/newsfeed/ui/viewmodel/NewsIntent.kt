@@ -6,6 +6,5 @@ package com.webmd.newsfeed.ui.viewmodel
 sealed class NewsIntent {
     object LoadNews : NewsIntent()
     object RefreshNews : NewsIntent()
-    object ToggleViewMode : NewsIntent()
     object ClearError : NewsIntent()
 }
