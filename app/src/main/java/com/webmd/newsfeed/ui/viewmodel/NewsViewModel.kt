@@ -59,20 +59,36 @@ class NewsViewModel @Inject constructor(
 
     private fun loadNews() {
         viewModelScope.launch {
-            // Observe Flow from Room database (offline-first) via use case
             getTopHeadlinesUseCase().collect { result ->
-                when(result){
-                    is AppNetworkResult.Loading -> {
-                        reduceState { NewsUiState.Loading() }
-                    }
-                    is AppNetworkResult.Failed -> {
-                        reduceState {
-                            NewsUiState.Success(result.data?:emptyList())
+
+                val isGridView = when (uiState.value) {
+                    is NewsUiState.Success -> (uiState.value as NewsUiState.Success).isGridView
+                    is NewsUiState.Error -> (uiState.value as NewsUiState.Error).isGridView
+                    else -> false
+                }
+
+                val articles = result.data.orEmpty()
+
+                reduceState {
+                    when (result) {
+                        is AppNetworkResult.Loading -> {
+                            NewsUiState.Loading(articles = articles)
                         }
-                    }
-                    is AppNetworkResult.Success ->{
-                        reduceState {
-                            NewsUiState.Success(result.data?:emptyList())
+                        is AppNetworkResult.Failed -> {
+                            val errorMessage = result.message
+                                ?: "Unable to load news. Please try again later."
+
+                            NewsUiState.Error(
+                                message = errorMessage,
+                                articles = articles,
+                                isGridView = isGridView
+                            )
+                        }
+                        is AppNetworkResult.Success -> {
+                            NewsUiState.Success(
+                                articles = articles,
+                                isGridView = isGridView
+                            )
                         }
                     }
                 }
