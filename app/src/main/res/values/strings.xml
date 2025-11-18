@@ -1,3 +1,23 @@
 <resources>
-    <string name="app_name">NewsFeed</string>
+    <string name="app_name">News Feed</string>
+    
+    <!-- News Feed Screen -->
+    <string name="news_feed_title">News Feed</string>
+    <string name="no_articles_available">No Articles available, Please try again</string>
+    <string name="error_fetching_stories">We\'re having trouble to fetch the latest stories</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="error_prefix">Error: %1$s</string>
+    <string name="retry">Retry</string>
+    
+    <!-- Article Detail Screen -->
+    <string name="article_details_title">Article Details</string>
+    <string name="back">Back</string>
+    <string name="author_label">Author: %1$s</string>
+    <string name="published_label">Published: %1$s</string>
+    
+    <!-- ViewModel Error Messages -->
+    <string name="error_unable_to_load_news">Unable to load news. Please try again later.</string>
+    <string name="error_article_url_missing">Article URL is missing</string>
+    <string name="error_article_not_found">Article not found</string>
+    <string name="error_failed_to_load_article">Failed to load article</string>
 </resources>

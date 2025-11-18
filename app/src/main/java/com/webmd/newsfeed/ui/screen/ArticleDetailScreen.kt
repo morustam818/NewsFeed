@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -44,12 +45,12 @@ fun ArticleDetailScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Article Details") },
+                title = { Text(stringResource(R.string.article_details_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(R.string.back)
                         )
                     }
                 }
@@ -103,7 +104,7 @@ fun ArticleDetailScreen(
                                 )
                             )
                         }) {
-                            Text("Retry")
+                            Text(stringResource(R.string.retry))
                         }
                     }
                 }
@@ -156,7 +157,7 @@ fun ArticleDetailScreen(
                         article.author?.let { author ->
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
-                                text = "Author: $author",
+                                text = stringResource(R.string.author_label, author),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -164,7 +165,7 @@ fun ArticleDetailScreen(
 
                         article.publishedAt?.let { publishedAt ->
                             Text(
-                                text = "Published: ${publishedAt.formatDate()}",
+                                text = stringResource(R.string.published_label, publishedAt.formatDate()),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )

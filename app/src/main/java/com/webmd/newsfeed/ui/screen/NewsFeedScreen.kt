@@ -17,9 +17,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.webmd.newsfeed.R
 import com.webmd.newsfeed.domain.model.Article
 import com.webmd.newsfeed.ui.component.ArticleCard
 import com.webmd.newsfeed.ui.viewmodel.NewsIntent
@@ -37,7 +39,7 @@ fun NewsFeedScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("News Feed") }
+                title = { Text(stringResource(R.string.news_feed_title)) }
             )
         }
     ) { paddingValues ->
@@ -73,7 +75,7 @@ fun NewsFeedScreen(
                 is NewsUiState.Success -> {
                     if (state.articles.isEmpty()) {
                         EmptyState(
-                            message = "No Articles available, Please try again",
+                            message = stringResource(R.string.no_articles_available),
                             onRetry = { viewModel.sendIntent(NewsIntent.RefreshNews) }
                         )
                     } else {
@@ -94,7 +96,7 @@ fun NewsFeedScreen(
                         // Show articles with error banner
                         Column {
                             ErrorBanner(
-                                message = state.message,
+                                message = stringResource(R.string.error_fetching_stories),
                                 onDismiss = { viewModel.sendIntent(NewsIntent.ClearError) }
                             )
                             ArticleListContent(
@@ -156,7 +158,7 @@ fun ErrorBanner(
                 modifier = Modifier.weight(1f)
             )
             TextButton(onClick = onDismiss) {
-                Text("Dismiss")
+                Text(stringResource(R.string.dismiss))
             }
         }
     }
@@ -175,14 +177,14 @@ fun ErrorMessage(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Error: $message",
+            text = stringResource(R.string.error_prefix, message),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.error,
             textAlign = TextAlign.Center,
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = onRetry) {
-            Text("Retry")
+            Text(stringResource(R.string.retry))
         }
     }
 }
@@ -205,7 +207,7 @@ fun EmptyState(
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = onRetry) {
-            Text("Retry")
+            Text(stringResource(R.string.retry))
         }
     }
 }
