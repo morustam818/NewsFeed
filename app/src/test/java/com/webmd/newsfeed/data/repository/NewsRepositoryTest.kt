@@ -84,7 +84,9 @@ class NewsRepositoryTest : DescribeSpec({
                 val apiArticle = createTestArticleDto()
                 val apiResponse = NewsResponse("ok", 1, listOf(apiArticle))
 
-                coEvery { newsApiService.getTopHeadlines(apiKey = apiKey) } returns Response.success(apiResponse)
+                coEvery { newsApiService.getTopHeadlines(apiKey = apiKey) } returns Response.success(
+                    apiResponse
+                )
 
                 val result = repository.getTopHeadlines().first()
 
@@ -99,7 +101,9 @@ class NewsRepositoryTest : DescribeSpec({
                 val errorBody = ResponseBody.create("application/json".toMediaTypeOrNull(), "")
                 val errorResponse = Response.error<NewsResponse>(400, errorBody)
 
-                coEvery { newsApiService.getTopHeadlines(apiKey = apiKey) } throws HttpException(errorResponse)
+                coEvery { newsApiService.getTopHeadlines(apiKey = apiKey) } throws HttpException(
+                    errorResponse
+                )
 
                 val result = repository.getTopHeadlines().first()
 

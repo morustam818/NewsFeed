@@ -66,6 +66,7 @@ class NewsViewModel @Inject constructor(
                         is AppNetworkResult.Loading -> {
                             NewsUiState.Loading(articles = articles)
                         }
+
                         is AppNetworkResult.Failed -> {
                             val errorMessage = result.message
                                 ?: "Unable to load news. Please try again later."
@@ -75,6 +76,7 @@ class NewsViewModel @Inject constructor(
                                 articles = articles
                             )
                         }
+
                         is AppNetworkResult.Success -> {
                             NewsUiState.Success(
                                 articles = articles
@@ -98,6 +100,7 @@ class NewsViewModel @Inject constructor(
                         NewsUiState.Initial
                     }
                 }
+
                 else -> currentState
             }
         }

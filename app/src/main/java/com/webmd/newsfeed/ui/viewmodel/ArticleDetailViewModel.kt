@@ -63,7 +63,7 @@ class ArticleDetailViewModel @Inject constructor(
 
         viewModelScope.launch {
             reduceState { ArticleDetailUiState.Loading }
-            
+
             try {
                 val article = getArticleByUrlUseCase(url)
                 if (article != null) {

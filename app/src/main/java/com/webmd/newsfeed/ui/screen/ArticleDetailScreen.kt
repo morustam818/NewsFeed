@@ -165,7 +165,10 @@ fun ArticleDetailScreen(
 
                         article.publishedAt?.let { publishedAt ->
                             Text(
-                                text = stringResource(R.string.published_label, publishedAt.formatDate()),
+                                text = stringResource(
+                                    R.string.published_label,
+                                    publishedAt.formatDate()
+                                ),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
