@@ -32,6 +32,8 @@ class NewsViewModelTest : DescribeSpec({
         Dispatchers.resetMain()
     }
 
+    fun buildVm() = NewsViewModel(topHeadlinesUseCase)
+
     describe("NewsViewModel") {
 
         it("should show loading state when loading news") {
@@ -43,7 +45,7 @@ class NewsViewModelTest : DescribeSpec({
                 )
 
                 // When
-                val viewModel = NewsViewModel(topHeadlinesUseCase)
+                val viewModel = buildVm()
                 advanceUntilIdle()
 
                 // Then
@@ -73,7 +75,7 @@ class NewsViewModelTest : DescribeSpec({
                 )
 
                 // When
-                val viewModel = NewsViewModel(topHeadlinesUseCase)
+                val viewModel = buildVm()
                 advanceUntilIdle()
 
                 // Then
@@ -93,7 +95,7 @@ class NewsViewModelTest : DescribeSpec({
                 )
 
                 // When
-                val viewModel = NewsViewModel(topHeadlinesUseCase)
+                val viewModel = buildVm()
                 advanceUntilIdle()
 
                 // Then
@@ -113,7 +115,7 @@ class NewsViewModelTest : DescribeSpec({
                 )
 
                 // When
-                val viewModel = NewsViewModel(topHeadlinesUseCase)
+                val viewModel = buildVm()
                 advanceUntilIdle()
 
                 // Then
@@ -143,7 +145,7 @@ class NewsViewModelTest : DescribeSpec({
                 )
 
                 // When
-                val viewModel = NewsViewModel(topHeadlinesUseCase)
+                val viewModel = buildVm()
                 advanceUntilIdle()
 
                 // Verify error state first
@@ -169,7 +171,7 @@ class NewsViewModelTest : DescribeSpec({
                 )
 
                 // When
-                val viewModel = NewsViewModel(topHeadlinesUseCase)
+                val viewModel = buildVm()
                 advanceUntilIdle()
 
                 // Verify error state first
@@ -205,7 +207,7 @@ class NewsViewModelTest : DescribeSpec({
                 )
 
                 // When
-                val viewModel = NewsViewModel(topHeadlinesUseCase)
+                val viewModel = buildVm()
                 advanceUntilIdle()
 
                 // Send refresh intent
