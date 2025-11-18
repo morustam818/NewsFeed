@@ -5,9 +5,11 @@ import com.webmd.newsfeed.data.mapper.ArticleMapper
 import com.webmd.newsfeed.data.remote.NewsApiService
 import com.webmd.newsfeed.domain.model.Article
 import com.webmd.newsfeed.domain.repository.NewsRepository
+import com.webmd.newsfeed.utils.AppConstant
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * Data layer implementation of the domain repository
@@ -16,7 +18,7 @@ import javax.inject.Inject
 class NewsRepositoryImpl @Inject constructor(
     private val newsApiService: NewsApiService,
     private val articleDao: ArticleDao,
-    private val apiKey: String
+    @field:Named(AppConstant.API_KEY) private val apiKey: String
 ) : NewsRepository {
     override fun getTopHeadlines(): Flow<List<Article>> {
         return articleDao.getAllArticles().map { entities ->
