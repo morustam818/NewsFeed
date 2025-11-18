@@ -8,7 +8,6 @@ import javax.inject.Inject
 
 /**
  * Use case for getting top headlines
- * Encapsulates business logic and follows single responsibility principle
  */
 class GetTopHeadlinesUseCase @Inject constructor(
     private val repository: NewsRepository
