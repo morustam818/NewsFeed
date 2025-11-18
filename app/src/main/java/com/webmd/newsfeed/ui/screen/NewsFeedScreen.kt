@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -18,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.webmd.newsfeed.domain.model.Article
-import com.webmd.newsfeed.ui.component.ArticleItem
+import com.webmd.newsfeed.ui.component.ArticleCard
 import com.webmd.newsfeed.ui.viewmodel.NewsIntent
 import com.webmd.newsfeed.ui.viewmodel.NewsUiState
 import com.webmd.newsfeed.ui.viewmodel.NewsViewModel
@@ -108,17 +110,19 @@ fun NewsFeedScreen(
 
 @Composable
 fun ArticleListContent(
+    state: LazyGridState = rememberLazyGridState(),
     articles: List<Article>,
     onArticleClick: (Article) -> Unit
 ) {
     LazyVerticalGrid(
+        state = state,
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(articles) { article ->
-            ArticleItem(
+            ArticleCard(
                 article = article,
                 onClick = { onArticleClick(article) }
             )

@@ -17,9 +17,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.webmd.newsfeed.R
 import com.webmd.newsfeed.ui.viewmodel.ArticleDetailIntent
 import com.webmd.newsfeed.ui.viewmodel.ArticleDetailUiState
 import com.webmd.newsfeed.ui.viewmodel.ArticleDetailViewModel
@@ -114,28 +116,28 @@ fun ArticleDetailScreen(
                         .padding(paddingValues)
                         .verticalScroll(rememberScrollState())
                 ) {
-                    article.urlToImage?.let { imageUrl ->
-                        AsyncImage(
-                            model = imageUrl,
-                            contentDescription = article.title,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(250.dp),
-                            contentScale = ContentScale.Crop
-                        )
-                    }
+                    AsyncImage(
+                        model = article.urlToImage,
+                        contentDescription = article.title,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(250.dp),
+                        contentScale = ContentScale.Crop,
+                        error = painterResource(R.drawable.ic_image_placeholder)
+                    )
 
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp)
                     ) {
-                        Text(
-                            text = article.title ?: "",
-                            style = MaterialTheme.typography.headlineMedium
-                        )
-
-                        Spacer(modifier = Modifier.height(16.dp))
+                        article.title?.let {
+                            Text(
+                                text = article.title,
+                                style = MaterialTheme.typography.headlineMedium
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
 
                         Text(
                             text = article.description ?: "",
